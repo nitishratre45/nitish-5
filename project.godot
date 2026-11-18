@@ -9,10 +9,12 @@ config/features=PackedStringArray("4.3", "GL Compatibility")
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+window/handheld/orientation=0
 
 [rendering]
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
 environment/defaults/default_clear_color=Color(0.36, 0.58, 0.78, 1)
 
 [input]
@@ -23,3 +25,5 @@ move_right={"deadzone":0.2,"events":[Object(InputEventKey,"physical_keycode":68)
 jump={"deadzone":0.2,"events":[Object(InputEventKey,"physical_keycode":32)]}
 interact={"deadzone":0.2,"events":[Object(InputEventKey,"physical_keycode":69)]}
 sprint={"deadzone":0.2,"events":[Object(InputEventKey,"physical_keycode":4194325)]}
+brake={"deadzone":0.2,"events":[Object(InputEventKey,"physical_keycode":66)]}
+wanted={"deadzone":0.2,"events":[Object(InputEventKey,"physical_keycode":70)]}
