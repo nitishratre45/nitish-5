@@ -76,7 +76,14 @@ jobs:
         run: |
           mkdir -p build .ci
           cp "$HOME/.android/debug.keystore" .ci/debug.keystore
-          godot --headless --path . --export-debug "Android" build/NITISH-5.apk
+          echo "Android SDK: $ANDROID_HOME"
+          test -x "$ANDROID_HOME/platform-tools/adb"
+          test -d "$ANDROID_HOME/ndk/23.2.8568313"
+          test -d "$ANDROID_HOME/cmake/3.10.2.4988404"
+          test -x "$JAVA_HOME/bin/java"
+          echo "Godot export preset and signing inputs:"
+          grep -E "^(name|platform|package/signed|keystore/debug)" export_presets.cfg
+          godot --headless --verbose --path . --export-debug "Android" build/NITISH-5.apk
           test -s build/NITISH-5.apk
 
       - name: Upload APK artifact
