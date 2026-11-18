@@ -24,6 +24,8 @@ jobs:
 
       - name: Install Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: platform-tools
 
       - name: Install Android platform and build tools
         run: |
@@ -57,7 +59,9 @@ jobs:
           EOF
 
       - name: Import and validate project
-        run: godot --headless --editor --path . --quit
+        run: |
+          godot --headless --editor --path . --quit
+          godot --headless --path . --quit-after 5
 
       - name: Export Android debug APK
         run: |
