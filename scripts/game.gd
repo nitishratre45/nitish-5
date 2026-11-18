@@ -243,7 +243,7 @@ func _build_traffic() -> void:
         var traffic := Node3D.new()
         traffic.set_script(TRAFFIC_SCRIPT)
         _make_vehicle_visual(traffic, colors[i % colors.size()])
-        var x := lanes[i % lanes.size()] + (2.0 if i % 2 == 0 else -2.0)
+        var x: float = float(lanes[i % lanes.size()]) + (2.0 if i % 2 == 0 else -2.0)
         var direction := Vector3.FORWARD if i % 2 == 0 else Vector3.BACK
         var z := -105.0 + float(i) * 20.0
         traffic.call("configure", Vector3(x, 0, z), direction, rng.randf_range(7.0, 13.0))
