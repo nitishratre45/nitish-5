@@ -59,9 +59,19 @@ jobs:
           EOF
 
       - name: Import and validate project
+        shell: bash
         run: |
-          godot --headless --editor --path . --quit
-          godot --headless --path . --quit-after 5
+          set -o pipefail
+          godot --headless --editor --path . --quit 2>&1 | tee editor-check.log
+          if grep -E "SCRIPT ERROR|Parse Error|Failed to load script|ERROR:" editor-check.log; then
+            echo "Godot editor validation reported script errors."
+            exit 1
+          fi
+          godot --headless --path . --quit-after 5 2>&1 | tee runtime-check.log
+          if grep -E "SCRIPT ERROR|Parse Error|Failed to load script|ERROR:" runtime-check.log; then
+            echo "Godot runtime smoke test reported errors."
+            exit 1
+          fi
 
       - name: Export Android debug APK
         run: |
