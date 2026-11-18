@@ -7,7 +7,7 @@ var world_limit := 118.0
 
 func configure(start: Vector3, direction: Vector3, speed: float) -> void:
     lane_origin = start
-    global_position = start
+    position = start
     travel_direction = direction.normalized()
     cruise_speed = speed
     if abs(travel_direction.x) > 0.5:
