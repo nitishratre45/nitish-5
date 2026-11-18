@@ -1,0 +1,46 @@
+name: Build NITISH 5 Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.3.0
+          use-dotnet: false
+
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platform and build tools
+        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Install Godot export templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/4.3.0.stable
+          wget -q https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz -O templates.tpz
+          unzip -q templates.tpz -d templates
+          cp -r templates/templates/* ~/.local/share/godot/export_templates/4.3.0.stable/
+
+      - name: Import project
+        run: godot --headless --editor --path . --quit
+
+      - name: Export debug APK
+        run: |
+          mkdir -p build
+          godot --headless --path . --export-debug "Android" build/NITISH-5.apk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NITISH-5-Android-APK
+          path: build/NITISH-5.apk
